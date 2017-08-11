@@ -10,17 +10,18 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param \Illuminate\Http\Request  $request
+     * @param \Closure  $next
+     * @param string|null  $guard
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // Authorized user doesn't need to go to this route
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return response()->json(['error:' => 'User is authenticated'], 400);
         }
-
         return $next($request);
     }
 }
