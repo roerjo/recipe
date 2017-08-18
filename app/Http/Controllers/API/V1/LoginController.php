@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginUser;
+use App\Http\Requests\RegisterUser;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 
 /**
@@ -16,17 +18,17 @@ class LoginController extends Controller
     /**
      * Create a new user
      *
-     * @param Request $request
+     * @param RegisterUser $request
      *
      * @return RedirectResponse
      */
-    public function register(Request $request)
+    public function register(RegisterUser $request)
     {
         $user = User::create(
             [
                 'firstName' => $request->first_name,
                 'lastName' => $request->last_name,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'email' => $request->email,
                 'isAdmin' => false,
             ]
@@ -38,14 +40,26 @@ class LoginController extends Controller
     /**
      * Login user that has an expired token
      *
-     * @param Request $request
+     * @param LoginUser $request
      *
      * @return RedirectResponse
      */
-    public function login(Request $request)
+    public function login(LoginUser $request)
     {
-        //validate email and password
-        
-        //return response()->json($user->createToken('devToken')->accessToken, 200);
+        $user = User::where('email', $request->email)->first();
+
+        if (Hash::check($request->password, $user->password)) {
+
+            $response = $user->createToken('devToken')->accessToken;
+            $status = 200;
+
+        } else {
+
+            $response = ['error' => 'Incorrect login information'];
+            $status = 401;
+
+        } 
+
+        return response()->json($response, $status);
     }
 }

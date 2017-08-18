@@ -20,7 +20,7 @@ class RedirectIfAuthenticated
     {
         // Authorized user doesn't need to go to this route
         if (Auth::guard($guard)->check()) {
-            return response()->json(['error:' => 'User is authenticated'], 400);
+            return response()->json(['error:' => 'User is already authenticated'], 401);
         }
         return $next($request);
     }
