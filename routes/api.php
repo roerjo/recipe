@@ -14,12 +14,18 @@ use Illuminate\Http\Request;
 */
 
 
-Route::group(['namespace' => 'API\V1', 'prefix' => 'v1', 'middleware' => 'guest'], function () {
+Route::group(
+    [
+        'namespace' => 'API\V1', 
+        'prefix' => 'v1', 
+        'middleware' => 'guest'
+    ], function () {
 
-    Route::post('/register', 'LoginController@register');
-    Route::post('/login', 'LoginController@login');
+        Route::post('/register', 'LoginController@register');
+        Route::post('/login', 'LoginController@login');
 
-});
+    }
+);
 
 Route::group(
     [
@@ -30,5 +36,6 @@ Route::group(
 
         Route::get('/user', 'UserController@index');
 
+        Route::post('/recipe', 'RecipeController@create');
     }
 );
