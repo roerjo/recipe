@@ -36,6 +36,7 @@ Route::group(
 
         Route::get('/user', 'UserController@index');
 
+        Route::get('/recipe', 'RecipeController@index');
         Route::post('/recipe', 'RecipeController@create');
     }
 );
