@@ -22,7 +22,7 @@ Route::group(
     ], function () {
 
         Route::post('/register', 'LoginController@register');
-        Route::post('/login', 'LoginController@login');
+        Route::post('/login', 'LoginController@login')->name('login');
 
     }
 );

@@ -67,6 +67,12 @@ class RecipeController extends Controller
 
             unset($ingredients);
         }
+
+        if (!isset($response)) {
+
+            $response = "No recipes";
+
+        }
         
         return response()->json($response, 200);
     }
