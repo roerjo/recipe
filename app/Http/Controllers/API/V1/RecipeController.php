@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Recipe;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateRecipe;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class RecipeController extends Controller
 {
     private $recipeService;
     private $ingredientService;
-
+    
     /**
      * Build controller dependencies
      *
@@ -36,7 +37,7 @@ class RecipeController extends Controller
      *
      * @param CreateRecipe $request
      *
-     * @return RequestResponse
+     * @return Response
      */
     public function create(CreateRecipe $request)
     {
@@ -52,12 +53,26 @@ class RecipeController extends Controller
      *
      * @param Request $request
      *
-     * @return RequestResponse
+     * @return Response
      */
     public function index(Request $request)
     {
         $response = $this->getAllRecipes($request);
         
         return response()->json($response, 200);
+    }
+
+    /**
+     * Delete a user's recipe
+     *
+     * @param Recipe $recipe
+     *
+     * @return Response
+     */
+    public function destroy(Recipe $recipe)
+    {
+        $recipe->delete();
+
+        return response()->json("", 204); 
     }
 }

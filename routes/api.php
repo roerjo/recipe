@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 */
 
 
+
+// Routes that don't require authentication
 Route::group(
     [
         'namespace' => 'API\V1', 
@@ -27,6 +29,7 @@ Route::group(
     }
 );
 
+// Routes that do require authentication
 Route::group(
     [
         'namespace' => 'API\V1', 
@@ -38,5 +41,9 @@ Route::group(
 
         Route::get('/recipe', 'RecipeController@index');
         Route::post('/recipe', 'RecipeController@create');
+        Route::delete('/recipe/{recipe}', 'RecipeController@destroy');
+
+        Route::get('/ingredient', 'IngredientController@index');
+
     }
 );
