@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            'App\Services\Contracts\RecipeServiceContract', 'App\Services\RecipeService'
+        );
+        $this->app->bind(
+            'App\Services\Contracts\IngredientServiceContract', 'App\Services\IngredientService'
+        );
     }
 }

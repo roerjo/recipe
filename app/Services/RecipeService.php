@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
 use App\Recipe;
 use App\Ingredient;
+use App\Services\Contracts\RecipeServiceContract;
 
-class RecipeService
+class RecipeService implements RecipeServiceContract
 {
     public function createRecipe($request, $user)
     {
@@ -33,7 +34,7 @@ class RecipeService
         $recipe->ingredients()->attach($recipe_ingredients);
     }
 
-    public function getAllRecipes($request)
+    public function getAllRecipes($request): array
     {
         $recipes = Recipe::with('ingredients')->where('user_id', $request->user()->id)->get();
         
@@ -57,7 +58,7 @@ class RecipeService
 
         if (!isset($response)) {
 
-            $response = "No recipes";
+            $response = ['recipes' => 'No recipes'];
 
         }
 

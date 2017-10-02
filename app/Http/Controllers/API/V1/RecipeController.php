@@ -6,8 +6,8 @@ use App\Recipe;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateRecipe;
 use App\Http\Controllers\Controller;
-use App\Http\Services\RecipeService;
-use App\Http\Services\IngredientService;
+use App\Services\Contracts\RecipeServiceContract;
+use App\Services\Contracts\IngredientServiceContract;
 
 /**
  * Class: RecipeController
@@ -25,8 +25,8 @@ class RecipeController extends Controller
      * @param RecipeService $recipeService
      */
     public function __construct(
-        RecipeService $recipeService,
-        IngredientService $ingredientService
+        RecipeServiceContract $recipeService,
+        IngredientServiceContract $ingredientService
     ) {
         $this->recipeService = $recipeService;
         $this->ingredientService = $ingredientService;
