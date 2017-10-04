@@ -2,41 +2,57 @@
 
 namespace App\Services;
 
-use App\Recipe;
-use App\Ingredient;
 use App\Services\Contracts\RecipeServiceContract;
+use App\Repositories\Contracts\RecipeRepositoryContract;
+use App\Repositories\Contracts\IngredientRepositoryContract;
 
+/**
+ * Class: RecipeService
+ *
+ * @see RecipeServiceContract
+ */
 class RecipeService implements RecipeServiceContract
 {
-    public function createRecipe($request, $user)
-    {
-        $recipe = Recipe::create(
-            [
-                'name' => $request->name,
-                'user_id' => $user->id,
-            ]
-        );
+    private $recipeRepository;
+    private $ingredientRepository;
 
-        $recipe_ingredients = [];
-
-        foreach ($request->ingredients as $ingredient) {
-
-            $ingredient = Ingredient::create(
-                [
-                    'name' => $ingredient['name'],
-                ]
-            );
-
-            $recipe_ingredients[] = $ingredient->id;
-
-        }
-        
-        $recipe->ingredients()->attach($recipe_ingredients);
+    /**
+     * __construct
+     *
+     * @param RecipeRepositoryContract $recipeRepository
+     * @param IngredientRepositoryContract $ingredientRepository
+     */
+    public function __construct(
+        RecipeRepositoryContract $recipeRepository,
+        IngredientRepositoryContract $ingredientRepository
+    ) {
+        $this->recipeRepository = $recipeRepository;
+        $this->ingredientRepository = $ingredientRepository;
     }
 
+    /**
+     * Create a recipe and it's ingredients
+     *
+     * @param mixed $request
+     * @param mixed $user
+     */
+    public function createRecipe($request, $user)
+    {
+        $recipe = $this->recipeRepository->create($request, $user); 
+
+        $this->ingredientRepository->createFromRecipe($request, $recipe);
+    }
+
+    /**
+     * Retrieve all the users recipes
+     *
+     * @param mixed $request
+     *
+     * @return array
+     */
     public function getAllRecipes($request): array
     {
-        $recipes = Recipe::with('ingredients')->where('user_id', $request->user()->id)->get();
+        $recipes = $this->recipeRepository->getAll($request->user()->id);
         
         foreach ($recipes as $recipe) {
 
@@ -63,5 +79,15 @@ class RecipeService implements RecipeServiceContract
         }
 
         return $response;
+    }
+
+    /**
+     * Delete a recipe
+     *
+     * @param mixed $recipe
+     */
+    public function delete($recipe)
+    {
+        $this->recipeRepository->delete($recipe);
     }
 }

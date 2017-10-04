@@ -57,7 +57,7 @@ class RecipeController extends Controller
      */
     public function index(Request $request)
     {
-        $response = $this->getAllRecipes($request);
+        $response = $this->recipeService->getAllRecipes($request);
         
         return response()->json($response, 200);
     }

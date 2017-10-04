@@ -29,5 +29,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Services\Contracts\IngredientServiceContract', 'App\Services\IngredientService'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\RecipeRepositoryContract', 'App\Repositories\RecipeRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\IngredientRepositoryContract', 'App\Repositories\IngredientRepository'
+        );
     }
 }
