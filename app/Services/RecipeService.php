@@ -82,6 +82,30 @@ class RecipeService implements RecipeServiceContract
     }
 
     /**
+     * Update a recipe
+     *
+     * @param mixed $request
+     * @param App\Recipe $recipe
+     */
+    public function update($request, $recipe)
+    {
+        if ($request->name) {
+
+            $this->recipeRepository->update($request, $recipe);
+
+        }
+
+        $addedIngredients = $request->ingredients->added_ingredients;
+        $removedIngredients = $request->ingredients->removed_ingredients;
+
+        $this->ingredientRepository->update(
+            $addedIngredients, 
+            $removedIngredients, 
+            $recipe
+        );
+    }
+
+    /**
      * Delete a recipe
      *
      * @param mixed $recipe

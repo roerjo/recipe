@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Recipe;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateRecipe;
 use App\Http\Requests\CreateRecipe;
 use App\Http\Controllers\Controller;
 use App\Services\Contracts\RecipeServiceContract;
@@ -60,6 +61,21 @@ class RecipeController extends Controller
         $response = $this->recipeService->getAllRecipes($request);
         
         return response()->json($response, 200);
+    }
+
+    /**
+     * Update a recipe
+     *
+     * @param UpdateRecipe $request
+     * @param Recipe $recipe
+     *
+     * @return Response
+     */
+    public function update(UpdateRecipe $request, Recipe $recipe)
+    {
+        $this->recipeService->update($request, $recipe);
+
+        return response()->json("", 204);
     }
 
     /**

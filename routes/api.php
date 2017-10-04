@@ -41,6 +41,7 @@ Route::group(
 
         Route::get('/recipe', 'RecipeController@index');
         Route::post('/recipe', 'RecipeController@create');
+        Route::put('/recipe/{recipe}', 'RecipeController@update');
         Route::delete('/recipe/{recipe}', 'RecipeController@destroy');
 
         Route::get('/ingredient', 'IngredientController@index');
