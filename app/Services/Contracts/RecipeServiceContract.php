@@ -2,6 +2,9 @@
 
 namespace App\Services\Contracts;
 
+/**
+ * Interface: RecipeServiceContract
+ */
 interface RecipeServiceContract
 {
     public function createRecipe($request, $user);

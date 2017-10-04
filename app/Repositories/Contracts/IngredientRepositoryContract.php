@@ -2,6 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
+/**
+ * Interface: IngredientRepositoryContract
+ */
 interface IngredientRepositoryContract
 {
     public function createFromRecipe($request, $recipe);

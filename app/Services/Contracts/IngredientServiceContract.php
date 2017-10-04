@@ -2,6 +2,9 @@
 
 namespace App\Services\Contracts;
 
+/**
+ * Interface: IngredientServiceContract
+ */
 interface IngredientServiceContract
 {
     public function create($request);
