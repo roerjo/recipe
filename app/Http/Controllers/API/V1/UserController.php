@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
 
+    // just used for testing purposes
     public function index(Request $request)
     {
         return $request->user();

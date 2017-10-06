@@ -29,7 +29,7 @@ class UpdateRecipe extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'recipe.name' => 'required',
             'ingredients' => 'required|array',    
         ];
     }

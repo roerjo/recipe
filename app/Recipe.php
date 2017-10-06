@@ -21,4 +21,18 @@ class Recipe extends Model
     {
         return $this->belongsToMany(Ingredient::class);
     }   
+
+    public static function newRecipe($request)
+    {
+        $recipe = static::create(
+            [
+                'name' => $request->recipe['name'],
+                'user_id' => $request->user()->id,    
+            ]
+        );
+
+        event(new \App\Events\RecipeCreated($recipe, $request));
+
+        return $recipe;
+    }
 }

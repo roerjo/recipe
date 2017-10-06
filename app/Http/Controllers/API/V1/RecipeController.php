@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UpdateRecipe;
 use App\Http\Requests\CreateRecipe;
 use App\Http\Controllers\Controller;
-use App\Services\Contracts\RecipeServiceContract;
-use App\Services\Contracts\IngredientServiceContract;
 
 /**
  * Class: RecipeController
@@ -17,20 +15,13 @@ use App\Services\Contracts\IngredientServiceContract;
  */
 class RecipeController extends Controller
 {
-    private $recipeService;
-    private $ingredientService;
     
     /**
      * Build controller dependencies
-     *
-     * @param RecipeService $recipeService
      */
-    public function __construct(
-        RecipeServiceContract $recipeService,
-        IngredientServiceContract $ingredientService
-    ) {
-        $this->recipeService = $recipeService;
-        $this->ingredientService = $ingredientService;
+    public function __construct()
+    {
+        //
     }
 
     /**
@@ -42,11 +33,21 @@ class RecipeController extends Controller
      */
     public function create(CreateRecipe $request)
     {
-        $user = $request->user();
+        $recipe = Recipe::create(
+            [
+                'name' => $request->recipe['name'],
+                'user_id' => $request->user()->id,    
+            ]
+        );
 
-        $this->recipeService->createRecipe($request, $user);
+        event(new \App\Events\RecipeCreatedOrUpdated($recipe, $request));
 
-        return response()->json('Success', 201);
+        return response()->json(
+            [
+                "recipe" => $recipe->load('ingredients'),
+            ],
+            201
+        );
     }
 
     /**
@@ -58,9 +59,16 @@ class RecipeController extends Controller
      */
     public function index(Request $request)
     {
-        $response = $this->recipeService->getAllRecipes($request);
+        $recipes = Recipe::with('ingredients')
+            ->where('user_id', $request->user()->id)
+            ->get();
         
-        return response()->json($response, 200);
+        return response()->json(
+            [
+                'recipes' => $recipes, 
+            ],
+            200
+        );
     }
 
     /**
@@ -73,9 +81,17 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipe $request, Recipe $recipe)
     {
-        $this->recipeService->update($request, $recipe);
+        $recipe->name = $request->recipe['name'];
+        $recipe->save();
 
-        return response()->json("", 204);
+        event(new \App\Events\RecipeCreatedOrUpdated($recipe, $request));
+
+        return response()->json(
+            [
+                "recipe" => $recipe->load('ingredients'),
+            ],
+            200
+        );
     }
 
     /**
