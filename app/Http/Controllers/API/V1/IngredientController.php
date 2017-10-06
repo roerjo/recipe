@@ -23,7 +23,7 @@ class IngredientController extends Controller
         $ingredients = Ingredient::all();
 
         return response()->json(
-            [ "ingredients" => $ingredients], 200
+            ["ingredients" => $ingredients], 200
         );
     }
 }

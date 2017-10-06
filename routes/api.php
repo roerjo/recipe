@@ -37,8 +37,6 @@ Route::group(
         'middleware' => 'auth:api',
     ], function () {
 
-        Route::get('/user', 'UserController@index');
-
         Route::get('/recipe', 'RecipeController@index');
         Route::post('/recipe', 'RecipeController@create');
         Route::put('/recipe/{recipe}', 'RecipeController@update');
