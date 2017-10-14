@@ -35,6 +35,8 @@ class SyncRecipeIngredients
             $storedIngredient = Ingredient::firstOrCreate(
                 [
                     'name' => $ingredient['name'],
+                    'prepped' => $ingredient['prepped'],
+                    'amount' => $ingredient['amount'],
                 ]
             );
 

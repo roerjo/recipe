@@ -25,7 +25,9 @@ class CreateRecipe extends FormRequest
     {
         return [
             'recipe.name' => 'required',
+            'recipe.instructions' => 'required',
             'ingredients' => 'required|array',    
+            'ingredients.*.name' => 'required'
         ];
     }
 }

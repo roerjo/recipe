@@ -36,6 +36,8 @@ class RecipeController extends Controller
         $recipe = Recipe::create(
             [
                 'name' => $request->recipe['name'],
+                'description' => $request->recipe['description'],
+                'instructions' => $request->recipe['instructions'],
                 'user_id' => $request->user()->id,    
             ]
         );

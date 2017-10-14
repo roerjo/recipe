@@ -17,6 +17,8 @@ class CreateIngredientsTable extends Migration
 
             $table->increments('id');
             $table->string('name');
+            $table->string('amount')->nullable();
+            $table->string('prepped')->nullable();
             $table->timestamps();
         
         });

@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ingredient extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
+        'prepped',
+        'amount',
     ];
 
 
