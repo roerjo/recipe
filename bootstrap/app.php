@@ -1,5 +1,8 @@
 <?php
 
+header('Access-Control-Allow-Origin: http://recipes.roerjo.me');
+header('Access-Control-Allow-Headers: Authorization, Content-Type');
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
