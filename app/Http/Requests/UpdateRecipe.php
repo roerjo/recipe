@@ -29,8 +29,10 @@ class UpdateRecipe extends FormRequest
     public function rules()
     {
         return [
-            'recipe.name' => 'required',
+            'name' => 'required',
+            'instructions' => 'required',
             'ingredients' => 'required|array',    
+            'ingredients.*.name' => 'required',
         ];
     }
 }

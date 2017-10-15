@@ -24,8 +24,8 @@ class CreateRecipe extends FormRequest
     public function rules()
     {
         return [
-            'recipe.name' => 'required',
-            'recipe.instructions' => 'required',
+            'name' => 'required',
+            'instructions' => 'required',
             'ingredients' => 'required|array',    
             'ingredients.*.name' => 'required'
         ];

@@ -35,9 +35,9 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::create(
             [
-                'name' => $request->recipe['name'],
-                'description' => $request->recipe['description'],
-                'instructions' => $request->recipe['instructions'],
+                'name' => $request->name,
+                'description' => $request->description,
+                'instructions' => $request->instructions,
                 'user_id' => $request->user()->id,    
             ]
         );
@@ -83,7 +83,10 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipe $request, Recipe $recipe)
     {
-        $recipe->name = $request->recipe['name'];
+        $recipe->name = $request->name;
+        $recipe->description = $request->description;
+        $recipe->instructions = $request->instructions;
+
         $recipe->save();
 
         event(new \App\Events\RecipeCreatedOrUpdated($recipe, $request));

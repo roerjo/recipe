@@ -20,9 +20,9 @@ Route::group(
     [
         'namespace' => 'API\V1', 
         'prefix' => 'v1', 
-        'middleware' => 'guest'
+        'middleware' => 'guest',
     ], function () {
-
+ 
         Route::post('/register', 'LoginController@register');
         Route::post('/login', 'LoginController@login')->name('login');
 
