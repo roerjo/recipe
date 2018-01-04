@@ -1,0 +1,239 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: Recipe API
+  description: A way to create and save recipes for viewing at any time!
+
+schemes:
+  - http
+host: localhost:8000
+basePath: /api/v1/
+
+securityDefinitions:
+  ApiSecurity:
+    type: apiKey
+    in: header
+    name: Authorization
+
+security:
+  - ApiSecurity: []
+
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      tags:
+        - Login/Register
+      security: []
+      description: Submit the necessary info to register a new user.
+      consumes:
+          - application/json
+      parameters:
+        - name: user
+          in: body
+          description: Our new user
+          schema:
+            type: object
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+            required:
+              - first_name
+              - last_name
+              - password
+              - password_confirmation
+              - email
+            example:
+                first_name: dummy
+                last_name: dummyLast
+                password: password123
+                password_confirmation: password123
+                email: test@test.com
+      responses:
+        201:
+          description: Token created successfully
+        422:
+          description: Invalid parameter passed
+
+  /login:
+    post:
+      summary: Login to the site
+      tags:
+        - Login/Register
+      security: []
+      description: Login into the site if token has expired
+      consumes:
+          - application/json
+      parameters:
+        - name: Login Information
+          in: body
+          description: Necessary data needed to login
+          schema:
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+            example:
+                email: test@test.com
+                password: password123
+      responses:
+        200:
+          description: Token created successfully
+        401:
+          description: Incorrect login information
+
+  /recipe:
+    get:
+      summary: Retrieve all the user's recipes
+      tags:
+        - Recipes
+      description: Retrieves all the user's recipes that they have created
+      consumes:
+          - application/json
+      responses:
+        200:
+          description: Array of all the recipes
+          schema:
+            properties:
+              recipes:
+                type: array
+        401:
+          description: User does not have a token
+    post:
+      summary: Create a new recipe
+      tags:
+        - Recipes
+      description: Create a new recipe that will be added to the user's recipe collection 
+      consumes:
+          - application/json
+      parameters:
+        - name: Recipe
+          in: body
+          description: Necessary data needed to create a recipe
+          schema:
+            required:
+              - name
+              - description
+              - instructions
+              - ingredients
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              instructions:
+                type: string
+              ingredients:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    prepped:
+                      type: string
+                    amount:
+                      type: string
+            example:
+              name: mac and cheese
+              description: yummy meal
+              instructions: create food
+              ingredients:
+                - name: pasta
+                  prepped: none
+                  amount: 1 cup
+                - name: cheese
+                  prepped: none
+                  amount: 2 cups
+      responses:
+        201:
+          description: Returns the created recipe
+        401:
+          description: User does not have a token
+        422:
+          description: Invalid parameter passed
+
+  /recipe/{recipe}:
+    put:
+      summary: Update a recipe
+      tags:
+        - Recipes
+      description: Update an existing user recipe
+      consumes:
+          - application/json
+      parameters:
+        - name: recipe
+          in: path
+          required: true
+          type: integer
+          x-example: 1
+        - name: Recipe
+          in: body
+          description: Necessary data needed to update a recipe
+          schema:
+            required:
+              - name
+              - description
+              - instructions
+              - ingredients
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              instructions:
+                type: string
+              ingredients:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    prepped:
+                      type: string
+                    amount:
+                      type: string
+            example:
+              name: mac and cheese
+              description: yummy meal
+              instructions: create food
+              ingredients:
+                - name: pasta
+                  prepped: none
+                  amount: 1 cup
+                - name: cheese
+                  prepped: none
+                  amount: 2 cups
+      responses:
+        200:
+          description: Returns the updated recipe
+        401:
+          description: User does not have a token
+        422:
+          description: Invalid parameter passed
+    delete:
+      summary: Delete a recipe
+      tags:
+        - Recipes
+      description: Delete an existing user recipe
+      consumes:
+          - application/json
+      parameters:
+        - name: recipe
+          in: path
+          required: true
+          type: integer
+          x-example: 1
+      responses:
+        204:
+          description: Successfully deleted recipe
+        401:
+          description: User does not have a token
