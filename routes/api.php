@@ -15,24 +15,28 @@ use Illuminate\Http\Request;
 
 
 
+
 // Routes that don't require authentication
 Route::group(
     [
-        'namespace' => 'API\V1', 
-        'prefix' => 'v1', 
+        'namespace' => 'API\V1',
+        'prefix' => 'v1',
         'middleware' => 'guest',
     ], function () {
- 
+
         Route::post('/register', 'LoginController@register');
         Route::post('/login', 'LoginController@login')->name('login');
 
+        Route::get('/hello', function (Request $request) {
+            return response()->json(['message' => 'hello'], 200);
+        });
     }
 );
 
 // Routes that do require authentication
 Route::group(
     [
-        'namespace' => 'API\V1', 
+        'namespace' => 'API\V1',
         'prefix' => 'v1',
         'middleware' => 'auth:api',
     ], function () {
@@ -42,7 +46,7 @@ Route::group(
         Route::put('/recipe/{recipe}', 'RecipeController@update');
         Route::delete('/recipe/{recipe}', 'RecipeController@destroy');
 
-        Route::get('/ingredient', 'IngredientController@index');
+        //Route::get('/ingredient', 'IngredientController@index');
 
     }
 );

@@ -31,7 +31,7 @@ class SyncRecipeIngredients
         $recipe_ingredients = [];
 
         foreach ($event->request->ingredients as $ingredient) {
-            
+
             $storedIngredient = Ingredient::firstOrCreate(
                 [
                     'name' => $ingredient['name'],
@@ -41,7 +41,7 @@ class SyncRecipeIngredients
             );
 
             $recipe_ingredients[] = $storedIngredient->id;
-        
+
         }
 
         $event->recipe->ingredients()->sync($recipe_ingredients);

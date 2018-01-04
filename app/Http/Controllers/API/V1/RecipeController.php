@@ -15,15 +15,6 @@ use App\Http\Controllers\Controller;
  */
 class RecipeController extends Controller
 {
-    
-    /**
-     * Build controller dependencies
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Create a new recipe
      *
@@ -38,7 +29,7 @@ class RecipeController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'instructions' => $request->instructions,
-                'user_id' => $request->user()->id,    
+                'user_id' => $request->user()->id,
             ]
         );
 
@@ -64,10 +55,10 @@ class RecipeController extends Controller
         $recipes = Recipe::with('ingredients')
             ->where('user_id', $request->user()->id)
             ->get();
-        
+
         return response()->json(
             [
-                'recipes' => $recipes, 
+                'recipes' => $recipes,
             ],
             200
         );
