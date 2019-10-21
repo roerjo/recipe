@@ -1,6 +1,6 @@
 <?php
 
-header('Access-Control-Allow-Origin: http://recipes.roerjo.me');
+header('Access-Control-Allow-Origin: https://recipes.roerjo.me');
 header('Access-Control-Allow-Headers: Authorization, Content-Type');
 header('Access-Control-Allow-Methods: GET, HEAD, OPTIONS, POST, PUT, DELETE');
 
